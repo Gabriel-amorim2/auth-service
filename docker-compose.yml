@@ -1,0 +1,9 @@
+services:
+  db:
+    image: postgres
+    environment:
+      PASSWORD_ROOT: 1234
+
+  api:
+
+
