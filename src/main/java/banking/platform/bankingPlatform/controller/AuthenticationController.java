@@ -32,7 +32,7 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO authDTO) {
-        var userNamePasswoard = new UsernamePasswordAuthenticationToken(authDTO.login(), authDTO.password());
+        var userNamePasswoard = new UsernamePasswordAuthenticationToken(authDTO.email(), authDTO.password());
         var auth = this.authenticationManager.authenticate(userNamePasswoard);
         var token = tokenService.generetedToken((Clients) auth.getPrincipal());
         return ResponseEntity.ok(new LoginResponseDTO(token));
@@ -41,26 +41,26 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Valid RegisterDTO data) {
-        if (userRepository.findByLogin(data.login()) != null) return ResponseEntity.badRequest().build();
+        if (userRepository.findByEmail(data.email()) != null) return ResponseEntity.badRequest().body("existing user");
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-        Clients newClients = new Clients(data.login(), encryptedPassword, UserRole.USER);
+        Clients newClients = new Clients(data.email(), encryptedPassword, UserRole.USER);
         userRepository.save(newClients);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("user created: " + data.login());
+        return ResponseEntity.status(HttpStatus.CREATED).body("user created: " + data.email());
 
     }
 
     @PostMapping("/create-admin")
     public ResponseEntity registerAdmin(@RequestBody @Valid RegisterDTO dto) {
-        if (userRepository.findByLogin(dto.login()) != null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This record already exists in the database: " + dto.login());
+        if (userRepository.findByEmail(dto.email()) != null)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This record already exists in the database: " + dto.email());
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(dto.password());
-        Clients newClients = new Clients(dto.login(), encryptedPassword, dto.role());
+        Clients newClients = new Clients(dto.email(), encryptedPassword, dto.role());
         userRepository.save(newClients);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("ADMIN created: " + dto.login());
+        return ResponseEntity.status(HttpStatus.CREATED).body("ADMIN created: " + dto.email());
 
     }
 

@@ -1,12 +1,10 @@
 package banking.platform.bankingPlatform.infra.security;
 
-import banking.platform.bankingPlatform.service.AuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -32,10 +30,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                                 .requestMatchers( "/auth/login").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
-                                .requestMatchers("/accounts/**", "/transfers/**", "/cards/**", "/scheduler/**").hasRole("USER")
-                                .requestMatchers("/fraud/**").hasAnyRole("MANAGER", "ADMIN")
                                 .requestMatchers(HttpMethod.POST, "/auth/create-admin").hasRole("ADMIN")
-                                .requestMatchers("/users/**", "/logs/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 ).addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

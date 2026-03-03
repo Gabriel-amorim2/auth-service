@@ -5,12 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 
 @Table(name = "clients")
 @Entity(name = "clients")
@@ -24,15 +21,15 @@ public class Clients implements UserDetails {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    private String login;
+    private String email;
 
     private String password;
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    public Clients(String login, String password, UserRole role) {
-        this.login = login;
+    public Clients(String email, String password, UserRole role) {
+        this.email = email;
         this.password = password;
         this.role = role;
     }
@@ -44,6 +41,6 @@ public class Clients implements UserDetails {
 
     @Override
     public String getUsername() {
-        return login;
+        return email;
     }
 }
