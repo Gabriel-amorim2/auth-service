@@ -1,6 +1,7 @@
 package banking.platform.bankingPlatform.infra.security;
 
 import banking.platform.bankingPlatform.repository.UserRepository;
+import banking.platform.bankingPlatform.service.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

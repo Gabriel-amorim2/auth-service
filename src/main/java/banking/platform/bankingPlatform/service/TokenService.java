@@ -1,7 +1,6 @@
-package banking.platform.bankingPlatform.infra.security;
+package banking.platform.bankingPlatform.service;
 
 import banking.platform.bankingPlatform.domain.user.Clients;
-import banking.platform.bankingPlatform.domain.user.UserRole;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
